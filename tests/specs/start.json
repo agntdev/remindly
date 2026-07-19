@@ -1,6 +1,6 @@
 [
   {
-    "name": "/start replies with the welcome + main menu",
+    "name": "/start shows welcome and main menu with 4 buttons",
     "steps": [
       {
         "send": { "text": "/start" },
@@ -9,6 +9,17 @@
             "method": "sendMessage",
             "payload": { "text": "👋 Welcome! Tap a button below to get started." }
           }
+        ]
+      }
+    ]
+  },
+  {
+    "name": "back-to-menu button re-renders the main menu",
+    "steps": [
+      {
+        "send": { "callback": "menu:main" },
+        "expect": [
+          { "method": "editMessageText", "payload": { "text": "👋 Welcome! Tap a button below to get started." } }
         ]
       }
     ]

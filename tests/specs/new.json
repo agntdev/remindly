@@ -1,19 +1,17 @@
 [
   {
-    "name": "/new",
+    "name": "/new starts the reminder creation wizard",
     "steps": [
       {
+        "send": { "text": "/new" },
         "expect": [
           {
             "method": "sendMessage",
             "payload": {
-              "text": "Start guided reminder creation flow"
+              "text": "What should I remind you about?"
             }
           }
-        ],
-        "send": {
-          "text": "/new"
-        }
+        ]
       }
     ]
   }

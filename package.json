@@ -9,6 +9,7 @@
     "test": "vitest run"
   },
   "dependencies": {
+    "@rollup/rollup-linux-x64-gnu": "^4.62.2",
     "grammy": "^1.30.0",
     "ioredis": "^5.4.1"
   },

@@ -1,19 +1,17 @@
 [
   {
-    "name": "/list",
+    "name": "/list shows empty state for new user",
     "steps": [
       {
+        "send": { "text": "/list" },
         "expect": [
           {
             "method": "sendMessage",
             "payload": {
-              "text": "Show active reminders with management buttons"
+              "text": "No reminders yet — tap ➕ New to create one."
             }
           }
-        ],
-        "send": {
-          "text": "/list"
-        }
+        ]
       }
     ]
   }
