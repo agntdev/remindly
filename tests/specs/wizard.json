@@ -1,0 +1,213 @@
+[
+  {
+    "name": "New reminder button starts the wizard",
+    "steps": [
+      {
+        "send": { "callback": "new:start" },
+        "expect": [
+          { "method": "answerCallbackQuery" },
+          { "method": "sendMessage", "payload": { "text": "What should I remind you about?" } }
+        ]
+      }
+    ]
+  },
+  {
+    "name": "List button shows empty state",
+    "steps": [
+      {
+        "send": { "callback": "list:show" },
+        "expect": [
+          { "method": "answerCallbackQuery" },
+          { "method": "sendMessage", "payload": { "text": "No reminders yet — tap ➕ New to create one." } }
+        ]
+      }
+    ]
+  },
+  {
+    "name": "Settings button shows settings",
+    "steps": [
+      {
+        "send": { "callback": "settings:show" },
+        "expect": [
+          { "method": "answerCallbackQuery" },
+          { "method": "sendMessage", "payload": { "text": "⚙️ *Settings*\n\n🌍 Timezone: *UTC*\n😴 Default snooze: *15 min*" } }
+        ]
+      }
+    ]
+  },
+  {
+    "name": "Full wizard: create daily reminder end-to-end",
+    "steps": [
+      {
+        "send": { "text": "/new" },
+        "expect": [
+          { "method": "sendMessage", "payload": { "text": "What should I remind you about?" } }
+        ]
+      },
+      {
+        "send": { "text": "Take medicine" },
+        "expect": [
+          { "method": "sendMessage", "payload": { "text": "How often?" } }
+        ]
+      },
+      {
+        "send": { "callback": "new:sched:daily" },
+        "expect": [
+          { "method": "answerCallbackQuery" },
+          { "method": "sendMessage", "payload": { "text": "What time? (e.g. 09:00 or 14:30)" } }
+        ]
+      },
+      {
+        "send": { "text": "09:00" },
+        "expect": [
+          { "method": "sendMessage", "payload": { "text": "What's your timezone? (e.g. Europe/London, America/New_York)" } }
+        ]
+      },
+      {
+        "send": { "text": "Europe/London" },
+        "expect": [
+          { "method": "sendMessage" }
+        ]
+      }
+    ]
+  },
+  {
+    "name": "Invalid time shows error",
+    "steps": [
+      {
+        "send": { "text": "/new" },
+        "expect": [
+          { "method": "sendMessage", "payload": { "text": "What should I remind you about?" } }
+        ]
+      },
+      {
+        "send": { "text": "Exercise" },
+        "expect": [
+          { "method": "sendMessage", "payload": { "text": "How often?" } }
+        ]
+      },
+      {
+        "send": { "callback": "new:sched:daily" },
+        "expect": [
+          { "method": "answerCallbackQuery" },
+          { "method": "sendMessage", "payload": { "text": "What time? (e.g. 09:00 or 14:30)" } }
+        ]
+      },
+      {
+        "send": { "text": "bad time" },
+        "expect": [
+          { "method": "sendMessage", "payload": { "text": "Please use 24h format like 09:00 or 14:30. Try again." } }
+        ]
+      }
+    ]
+  },
+  {
+    "name": "Cancel during wizard returns to menu",
+    "steps": [
+      {
+        "send": { "text": "/new" },
+        "expect": [
+          { "method": "sendMessage", "payload": { "text": "What should I remind you about?" } }
+        ]
+      },
+      {
+        "send": { "callback": "new:save:no" },
+        "expect": [
+          { "method": "answerCallbackQuery" },
+          { "method": "editMessageText", "payload": { "text": "👍 Cancelled. Tap a button below." } }
+        ]
+      }
+    ]
+  },
+  {
+    "name": "Snooze button snoozes the reminder",
+    "steps": [
+      {
+        "send": { "callback": "notif:snooze:abc123:15:m" },
+        "expect": [
+          { "method": "answerCallbackQuery" }
+        ]
+      }
+    ]
+  },
+  {
+    "name": "Done button marks reminder complete",
+    "steps": [
+      {
+        "send": { "callback": "notif:done:abc123" },
+        "expect": [
+          { "method": "answerCallbackQuery" }
+        ]
+      }
+    ]
+  },
+  {
+    "name": "Weekly wizard flow",
+    "steps": [
+      {
+        "send": { "text": "/new" },
+        "expect": [
+          { "method": "sendMessage", "payload": { "text": "What should I remind you about?" } }
+        ]
+      },
+      {
+        "send": { "text": "Team standup" },
+        "expect": [
+          { "method": "sendMessage", "payload": { "text": "How often?" } }
+        ]
+      },
+      {
+        "send": { "callback": "new:sched:weekly" },
+        "expect": [
+          { "method": "answerCallbackQuery" },
+          { "method": "editMessageText", "payload": { "text": "Which days? Tap to select, then Done." } }
+        ]
+      },
+      {
+        "send": { "callback": "new:wd:mon" },
+        "expect": [
+          { "method": "answerCallbackQuery" },
+          { "method": "editMessageText", "payload": { "text": "Which days? Tap to select, then Done." } }
+        ]
+      },
+      {
+        "send": { "callback": "new:wd:done" },
+        "expect": [
+          { "method": "answerCallbackQuery" },
+          { "method": "sendMessage", "payload": { "text": "What time? (e.g. 09:00 or 14:30)" } }
+        ]
+      }
+    ]
+  },
+  {
+    "name": "Weekday selection requires at least one day",
+    "steps": [
+      {
+        "send": { "text": "/new" },
+        "expect": [
+          { "method": "sendMessage", "payload": { "text": "What should I remind you about?" } }
+        ]
+      },
+      {
+        "send": { "text": "Meeting" },
+        "expect": [
+          { "method": "sendMessage", "payload": { "text": "How often?" } }
+        ]
+      },
+      {
+        "send": { "callback": "new:sched:weekly" },
+        "expect": [
+          { "method": "answerCallbackQuery" },
+          { "method": "editMessageText", "payload": { "text": "Which days? Tap to select, then Done." } }
+        ]
+      },
+      {
+        "send": { "callback": "new:wd:done" },
+        "expect": [
+          { "method": "answerCallbackQuery" },
+          { "method": "sendMessage", "payload": { "text": "Pick at least one day." } }
+        ]
+      }
+    ]
+  }
+]

@@ -1,19 +1,17 @@
 [
   {
-    "name": "/settings",
+    "name": "/settings shows the settings panel",
     "steps": [
       {
+        "send": { "text": "/settings" },
         "expect": [
           {
             "method": "sendMessage",
             "payload": {
-              "text": "Configure snooze defaults and timezone"
+              "text": "⚙️ *Settings*\n\n🌍 Timezone: *UTC*\n😴 Default snooze: *15 min*"
             }
           }
-        ],
-        "send": {
-          "text": "/settings"
-        }
+        ]
       }
     ]
   }
